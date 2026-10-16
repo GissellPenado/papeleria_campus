@@ -118,4 +118,24 @@ public class ProductoDAO {
             throw e;
         }
     }
+
+    public int eliminar(int idProducto) throws SQLException {
+        String sql = "DELETE FROM producto WHERE id_producto = ?";
+
+        try (Connection conexion = ConexionBD.conectar();
+             PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+
+            sentencia.setInt(1, idProducto);
+
+            return sentencia.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println(
+                    "Operación: eliminar producto | SQLState: "
+                            + e.getSQLState()
+            );
+
+            throw e;
+        }
+    }
 }

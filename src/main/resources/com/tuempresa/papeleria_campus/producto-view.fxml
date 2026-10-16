@@ -83,7 +83,14 @@
 
         <Button text="Guardar"
                 onAction="#guardarProducto"/>
+
+        <Button text="Actualizar"
+                onAction="#actualizarProducto"/>
+
+        <Button text="Eliminar"
+                onAction="#eliminarProducto"/>
     </HBox>
+
 
     <HBox alignment="CENTER_LEFT" spacing="10">
         <TextField fx:id="txtBuscar"
@@ -110,17 +117,6 @@
 
         <Label fx:id="lblEstado"
                text="Cargando productos..."/>
-    </HBox>
-
-    <HBox spacing="10">
-        <Button text="Nuevo / Limpiar formulario"
-                onAction="#nuevoProducto"/>
-
-        <Button text="Guardar"
-                onAction="#guardarProducto"/>
-
-        <Button text="Actualizar"
-                onAction="#actualizarProducto"/>
     </HBox>
 
     <TableView fx:id="tablaProductos" VBox.vgrow="ALWAYS">

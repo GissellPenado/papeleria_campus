@@ -19,6 +19,7 @@ import java.util.List;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ButtonType;
 
 import java.util.Locale;
 
@@ -414,6 +415,69 @@ public class ProductosController {
                                 + "Revisa la conexión y los datos ingresados."
                 );
             }
+        }
+    }
+
+    @FXML
+    private void eliminarProducto() {
+        if (idSeleccionado == null) {
+            mostrarMensaje(
+                    Alert.AlertType.WARNING,
+                    "Selecciona un producto",
+                    "Debes seleccionar una fila para eliminar."
+            );
+            return;
+        }
+
+        int idAEliminar = idSeleccionado;
+
+        Alert confirmacion = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "¿Deseas eliminar el producto seleccionado con ID "
+                        + idAEliminar + "?",
+                ButtonType.OK,
+                ButtonType.CANCEL
+        );
+
+        confirmacion.setTitle("Confirmar eliminación");
+        confirmacion.setHeaderText("Esta acción eliminará el producto");
+
+        ButtonType respuesta = confirmacion.showAndWait()
+                .orElse(ButtonType.CANCEL);
+
+        if (respuesta != ButtonType.OK) {
+            return;
+        }
+
+        try {
+            int filas = productoDAO.eliminar(idAEliminar);
+
+            if (filas == 0) {
+                mostrarMensaje(
+                        Alert.AlertType.WARNING,
+                        "Producto no encontrado",
+                        "El producto ya no existe en la base de datos. "
+                                + "Recarga el listado."
+                );
+                return;
+            }
+
+            nuevoProducto();
+            recargarProductos();
+
+            mostrarMensaje(
+                    Alert.AlertType.INFORMATION,
+                    "Producto eliminado",
+                    "El producto se eliminó correctamente de PostgreSQL."
+            );
+
+        } catch (SQLException e) {
+            mostrarMensaje(
+                    Alert.AlertType.ERROR,
+                    "Error al eliminar",
+                    "No se pudo eliminar el producto. "
+                            + "Revisa la conexión e intenta nuevamente."
+            );
         }
     }
 }
